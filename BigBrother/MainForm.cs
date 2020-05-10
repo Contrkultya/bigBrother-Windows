@@ -11,13 +11,17 @@ using MaterialSkin;
 using MaterialSkin.Controls;
 using Firebase.Auth;
 using Firebase.Database;
-
+using System.Runtime.InteropServices;
+using System.Diagnostics;
+using System.Windows.Automation;
 namespace BigBrother
 {
+
     public partial class MainForm : MaterialForm
     {
-        public FirebaseAuthLink authLink { get; set; }
-        public FirebaseClient firebase { get; set; }
+
+        public FirebaseAuthLink AuthLink { get; set; }
+        public FirebaseClient Firebase { get; set; }
         public MainForm()
         {
             InitializeComponent();
@@ -43,19 +47,42 @@ namespace BigBrother
 
             if (loginForm.ShowDialog(this) == DialogResult.OK)
             {
-                authLink = loginForm.auth;
-                firebase = loginForm.firebase;
+                AuthLink = loginForm.auth;
+                Firebase = loginForm.firebase;
                 ContinueAfterLogin();
+                loginForm.Dispose();
             }
             else
             {
                 MessageBox.Show("Fuck you");
-                ActiveForm.Close();
+                loginForm.Dispose();
+                Process.GetCurrentProcess().Kill();
             }
-            loginForm.Dispose();
         }
-        public void ContinueAfterLogin() { 
-            userGreetLabel.Text = "Добро пожаловать, " + authLink.User.Email;
+        public void ContinueAfterLogin()
+        {
+            userGreetLabel.Text = "Добро пожаловать, " + AuthLink.User.Email;
         }
+
+        private void materialRaisedButton1_Click(object sender, EventArgs e)
+        {
+            AutomationFocusChangedEventHandler focusHandler = OnFocusChanged;
+            Automation.AddAutomationFocusChangedEventHandler(focusHandler);
+            richTextBox1.Text = Outism;
+        }
+        public string Outism = "";
+        private void OnFocusChanged(object sender, AutomationFocusChangedEventArgs e)
+        {
+            AutomationElement focusedElement = sender as AutomationElement;
+            if (focusedElement != null)
+            {
+                int processId = focusedElement.Current.ProcessId;
+                using (Process process = Process.GetProcessById(processId))
+                {
+                    Outism += process.ProcessName;
+                }
+            }
+        }
+
     }
 }
