@@ -1,5 +1,6 @@
 # bigBrother-Windows
-bigBrother client for Windows using .NET 4.7.2
+bigBrother client for Windows using .NET 4.7.2 <br>
+# What is bigBrother?
 bigBrother is ecosystem of applications for various platforms that helps you concentrate on your work and finally stop procrastionation.
 Unlike other productiveness apps out there, big brother doesn't try to teach you any practics of time management, and it will never beg you
 to get your things done using notifications. 
