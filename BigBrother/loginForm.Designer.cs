@@ -158,11 +158,11 @@
             this.materialLabel4.TabIndex = 7;
             this.materialLabel4.Text = "password";
             // 
-            // loginForm
+            // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(639, 450);
+            this.ClientSize = new System.Drawing.Size(639, 463);
             this.Controls.Add(this.materialLabel4);
             this.Controls.Add(this.materialLabel3);
             this.Controls.Add(this.materialFlatButton1);
@@ -171,7 +171,7 @@
             this.Controls.Add(this.passwordField);
             this.Controls.Add(this.materialLabel1);
             this.Controls.Add(this.emailField);
-            this.Name = "loginForm";
+            this.Name = "LoginForm";
             this.Text = "Большой брат - первая фаза";
             this.ResumeLayout(false);
             this.PerformLayout();

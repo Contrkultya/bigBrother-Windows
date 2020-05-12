@@ -37,16 +37,20 @@ namespace BigBrother
         
         public bool IsValidMail(string emailaddress)
         {
-            try
-            {
-                MailAddress m = new MailAddress(emailaddress);
+            if (emailaddress != "") {
+                try
+                {
+                    MailAddress m = new MailAddress(emailaddress);
 
-                return true;
+                    return true;
+                }
+                catch (FormatException)
+                {
+                    return false;
+                }
             }
-            catch (FormatException)
-            {
-                return false;
-            }
+            return false;
+
         }
         private async void initFirebase(string action) {
             var email = emailField.Text;
