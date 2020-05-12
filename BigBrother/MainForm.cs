@@ -14,6 +14,8 @@ using Firebase.Database;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Windows.Automation;
+using Newtonsoft.Json;
+
 namespace BigBrother
 {
 
@@ -30,7 +32,6 @@ namespace BigBrother
             materialSkinManager.AddFormToManage(this);
             materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
 
-            // Configure color schema
             materialSkinManager.ColorScheme = new ColorScheme(
                 Primary.Red400, Primary.Red500,
                 Primary.Red500, Accent.Red200,
@@ -68,18 +69,45 @@ namespace BigBrother
         {
             AutomationFocusChangedEventHandler focusHandler = OnFocusChanged;
             Automation.AddAutomationFocusChangedEventHandler(focusHandler);
-            richTextBox1.Text = Outism;
+            if (ActivityLog.Count > 0)
+            {
+               foreach (appLog log in ActivityLog) log.makeTime();
+                richTextBox1.Text = JsonConvert.SerializeObject(ActivityLog, Formatting.Indented);
+            }
         }
-        public string Outism = "";
+        private List<appLog> ActivityLog = new List<appLog>();
+
         private void OnFocusChanged(object sender, AutomationFocusChangedEventArgs e)
         {
+            if (ActivityLog.Count > 0)foreach (appLog log in ActivityLog) log.StopStopwatch();
             AutomationElement focusedElement = sender as AutomationElement;
             if (focusedElement != null)
             {
-                int processId = focusedElement.Current.ProcessId;
+                
+                int processId = focusedElement.Current.ProcessId ;
                 using (Process process = Process.GetProcessById(processId))
                 {
-                    Outism += process.ProcessName;
+                    if (ActivityLog.Count > 0)
+                    {
+                        bool goingFurther = true;
+                        foreach (appLog log in ActivityLog.ToArray())
+                        {
+                            if (log.name == process.ProcessName)
+                            {
+                                log.StartStopwatch();
+                                goingFurther = false;
+                            }
+                        }
+                        if (goingFurther) {
+                            appLog newAppLog = new appLog(process.ProcessName);
+                            ActivityLog.Add(newAppLog);
+                        }
+                    }
+                    else
+                    {
+                        appLog newAppLog = new appLog(process.ProcessName);
+                        ActivityLog.Add(newAppLog);
+                    }
                 }
             }
         }
