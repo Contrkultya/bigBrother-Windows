@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Windows.Automation;
 using Newtonsoft.Json;
+using Firebase.Database.Query;
 
 namespace BigBrother
 {
@@ -63,6 +64,8 @@ namespace BigBrother
         public void ContinueAfterLogin()
         {
             userGreetLabel.Text = "Добро пожаловать, " + AuthLink.User.Email;
+           
+
         }
 
         private void materialRaisedButton1_Click(object sender, EventArgs e)
@@ -73,7 +76,16 @@ namespace BigBrother
             {
                foreach (appLog log in ActivityLog) log.makeTime();
                 richTextBox1.Text = JsonConvert.SerializeObject(ActivityLog, Formatting.Indented);
+                sendShitToFirebase();
             }
+        }
+        private async void sendShitToFirebase() {
+            await Firebase
+                .Child("users")
+                .Child("1")
+                .Child("logs")
+                .Child("1")
+                .PutAsync(JsonConvert.SerializeObject(ActivityLog, Formatting.Indented));
         }
         private List<appLog> ActivityLog = new List<appLog>();
 
