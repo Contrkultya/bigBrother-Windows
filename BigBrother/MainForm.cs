@@ -25,6 +25,7 @@ namespace BigBrother
 
         public FirebaseAuthLink AuthLink { get; set; }
         public FirebaseClient Firebase { get; set; }
+        public DateTime date1 = DateTime.Today;
         public MainForm()
         {
             InitializeComponent();
@@ -64,30 +65,33 @@ namespace BigBrother
         public void ContinueAfterLogin()
         {
             userGreetLabel.Text = "Добро пожаловать, " + AuthLink.User.Email;
-           
-
         }
 
         private void materialRaisedButton1_Click(object sender, EventArgs e)
         {
+            if (timer1.Enabled == true)
+                timer1.Enabled = false;
+            else
+                timer1.Enabled = true;
             AutomationFocusChangedEventHandler focusHandler = OnFocusChanged;
             Automation.AddAutomationFocusChangedEventHandler(focusHandler);
             if (ActivityLog.Count > 0)
             {
                foreach (appLog log in ActivityLog) log.makeTime();
-                richTextBox1.Text = JsonConvert.SerializeObject(ActivityLog, Formatting.Indented);
+                //richTextBox1.Text = JsonConvert.SerializeObject(ActivityLog, Formatting.Indented);
                 sendShitToFirebase();
             }
         }
         private async void sendShitToFirebase() {
+            Random randy = new Random();
+            var mom = randy.Next(1, 31);
+            var name = AuthLink.User.Email;
             await Firebase
-                .Child("users")
-                .Child("1")
                 .Child("logs")
-                .Child("1")
                 .PutAsync(JsonConvert.SerializeObject(ActivityLog, Formatting.Indented));
         }
         private List<appLog> ActivityLog = new List<appLog>();
+         
 
         private void OnFocusChanged(object sender, AutomationFocusChangedEventArgs e)
         {
@@ -111,18 +115,27 @@ namespace BigBrother
                             }
                         }
                         if (goingFurther) {
-                            appLog newAppLog = new appLog(process.ProcessName);
+                            AuthLink.RefreshUserDetails();
+
+                            appLog newAppLog = new appLog(process.ProcessName, AuthLink.User.LocalId);
                             ActivityLog.Add(newAppLog);
                         }
                     }
                     else
                     {
-                        appLog newAppLog = new appLog(process.ProcessName);
+                        AuthLink.RefreshUserDetails();
+
+                        appLog newAppLog = new appLog(process.ProcessName, AuthLink.User.LocalId);
                         ActivityLog.Add(newAppLog);
                     }
                 }
             }
         }
 
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            date1 = date1.AddSeconds(1);
+            materialLabel1.Text = date1.ToLongTimeString();
+        }
     }
 }

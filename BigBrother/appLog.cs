@@ -12,9 +12,13 @@ namespace BigBrother
         public string name { get; set; }
         private Stopwatch stopwatch = new Stopwatch();
         public string time { get; private set; }
-        public appLog(string newName) {
+        public string date { get; private set; }
+        public string uid { get; set; }
+        public appLog(string newName, string newUid) {
             name = newName;
+            date = DateTime.Now.ToShortDateString();
             stopwatch.Start();
+            uid = newUid;
         }
         public void StartStopwatch() {
             if (stopwatch != null) stopwatch.Start();

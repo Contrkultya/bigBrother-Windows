@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.userGreetLabel = new MaterialSkin.Controls.MaterialLabel();
             this.materialRaisedButton1 = new MaterialSkin.Controls.MaterialRaisedButton();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // userGreetLabel
@@ -62,20 +64,29 @@
             this.materialRaisedButton1.UseVisualStyleBackColor = true;
             this.materialRaisedButton1.Click += new System.EventHandler(this.materialRaisedButton1_Click);
             // 
-            // richTextBox1
+            // materialLabel1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(60, 293);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(789, 258);
-            this.richTextBox1.TabIndex = 2;
-            this.richTextBox1.Text = "";
+            this.materialLabel1.AutoSize = true;
+            this.materialLabel1.Depth = 0;
+            this.materialLabel1.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel1.Location = new System.Drawing.Point(332, 261);
+            this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel1.Name = "materialLabel1";
+            this.materialLabel1.Size = new System.Drawing.Size(0, 27);
+            this.materialLabel1.TabIndex = 2;
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(975, 622);
-            this.Controls.Add(this.richTextBox1);
+            this.ClientSize = new System.Drawing.Size(836, 306);
+            this.Controls.Add(this.materialLabel1);
             this.Controls.Add(this.materialRaisedButton1);
             this.Controls.Add(this.userGreetLabel);
             this.Name = "MainForm";
@@ -90,6 +101,7 @@
 
         private MaterialSkin.Controls.MaterialLabel userGreetLabel;
         private MaterialSkin.Controls.MaterialRaisedButton materialRaisedButton1;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private MaterialSkin.Controls.MaterialLabel materialLabel1;
+        private System.Windows.Forms.Timer timer1;
     }
 }
